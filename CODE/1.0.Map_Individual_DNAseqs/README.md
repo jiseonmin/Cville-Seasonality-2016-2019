@@ -3,6 +3,8 @@
 ## Files 
 Need to download reads from the SRA
 
+(`0.SRA_download.sh` is added by Jiseon M for this)
+
 ## Make pair files
 ls  /files/fastq/ | grep "HL5KFALXX" > HL5KFALXX.file_names.txt
 

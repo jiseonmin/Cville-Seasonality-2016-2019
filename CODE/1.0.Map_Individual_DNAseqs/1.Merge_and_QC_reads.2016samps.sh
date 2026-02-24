@@ -4,34 +4,25 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=20G
 #SBATCH --time=8:00:00
-#SBATCH --partition=standard
-#SBATCH --account=jcbnunez
+#SBATCH --partition=lotterhos
 
 
 # This script will initiate a pipeline which will do some quality QC on the reads and then will proceed to map the reads to a reference genome.
 # Prepared by Joaquin C. B. Nunez, PhD -- March 29, 2021
-# yey2sn@virginia.edu
+# yey2sn@virginia.edui
+# modified by Jiseon M. to run on Explorer (HPC at Northeastern University)
 
 # NOTES ON NOMENCLATURE: This script uses nomenclature which can be confusing. The first part of the script split raw reads into insert-"merged"-reads (hereby called merged) and unmerged reads (those which were not merged). As such, all operations done using ether of these reads will have the term "merged" or "unmerged" attached to them. At a later point in the script, I combine bam files using "samtools merge" the output of this combination is a joint-bam file (hereby called "joint"). Thus, the joint suffix referes to this step. Other suffix used here are: "srt" which mean picard sorted, and "rmdp" which mean picard-removed duplicated reads.
-  
-#Load Rivanna modules 
-module load gcc/9.2.0
-module load bwa/0.7.17
-module load bbmap
-module load fastqc
-module load samtools
-module load qualimap
-module load picard
+
+# Loading only the modules used in this script + ones that exist in Explorer
+module load bbmap fastqc
 
 #Define important file locations
 #RAW READS indicates the folder where the raw reads are stored.
-RAW_READS=/project/berglandlab/alyssa/wildDmel2016/fastq
+RAW_READS="/projects/lotterhos/Cville-Seasonality-2016-2019/DATA/fastq_renamed"
 
 #Working folder is core folder where this pipeline is being run.
-WORKING_FOLDER=/scratch/yey2sn/Alyssa_single_inds/fastq_to_VCF
-
-#This is the location where the reference genome and all its indexes are stored.
-REFERENCE=/project/berglandlab/Dmel_fasta_refences/holo_dmel_6.12.fa
+WORKING_FOLDER="/scratch/j.min/data/fastq-to-vcf"
 
 #This is a unique number id which identifies this run
 unique_run_id=`date +%N`
@@ -50,7 +41,7 @@ JAVAMEM=18g # Java memory
 ## PREPARE GUIDE FILES
 ## Read guide files
 # This is a file with the name all the samples to be processed. one sample name per line with all the infor
-SAMPLE_FILE=/scratch/yey2sn/Alyssa_single_inds/fastq_to_VCF/Alyssa_ind_reads_guideFile.txt
+SAMPLE_FILE="/projects/lotterhos/Cville-Seasonality-2016-2019/CODE/1.0.Map_Individual_DNAseqs/Guide_Files/Alyssa_ind_reads_guideFile.txt"
 
 #Example: -- the headers are just examples. The actual file has no header
  ##                                          File1       lane_1                      sample_1

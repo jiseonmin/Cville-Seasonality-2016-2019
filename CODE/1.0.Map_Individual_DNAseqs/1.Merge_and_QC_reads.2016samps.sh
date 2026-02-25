@@ -4,6 +4,8 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=20G
 #SBATCH --time=8:00:00
+#SBATCH --output=./logs/Merge_and_QC_%A_%a.out
+#SBATCH --error=./logs/Merge_and_QC_%A_%a.err
 #SBATCH --partition=lotterhos
 
 
@@ -68,6 +70,10 @@ SAMPLE_FILE="/projects/lotterhos/Cville-Seasonality-2016-2019/CODE/1.0.Map_Indiv
 i=`awk -F "\t" '{print $9}' $SAMPLE_FILE | sed -n ${SLURM_ARRAY_TASK_ID}p`
 read1=`awk -F "\t" '{print $1}' $SAMPLE_FILE | sed -n ${SLURM_ARRAY_TASK_ID}p`
 read2=`awk -F "\t" '{print $4}' $SAMPLE_FILE | sed -n ${SLURM_ARRAY_TASK_ID}p`
+
+echo "sample is" $i
+echo "read1 is" $read1
+echo "read2 is" $read2
 
 ###########################################################################
 ###########################################################################

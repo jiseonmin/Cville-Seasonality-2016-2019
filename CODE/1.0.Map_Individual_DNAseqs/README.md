@@ -5,6 +5,11 @@ Need to download reads from the SRA
 
 (`0.SRA_download.sh` is added by Jiseon M for this)
 
+Run using
+```
+sbatch --array=1-$( wc -l < ./Alyssa_ind_reads_guideFile.txt ) 0.SRA_download.sh
+```
+
 ## Make pair files
 ls  /files/fastq/ | grep "HL5KFALXX" > HL5KFALXX.file_names.txt
 

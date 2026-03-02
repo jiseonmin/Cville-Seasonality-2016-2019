@@ -4,29 +4,34 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=20G
 #SBATCH --time=8:00:00
-#SBATCH --partition=standard
-#SBATCH --account=jcbnunez
+#SBATCH --output=./logs/Trim_and_Map_%A_%a.out
+#SBATCH --error=./logs/Trim_and_Map_%A_%a.err
+#SBATCH --partition=lotterhos
 
 # This script is the second step in the qc-trim-map of the Alyssa's data
 
-#Load Rivanna modules 
-module load gcc/9.2.0
-module load bwa/0.7.17
+#Load modules 
+module load bwa
 module load bbmap
 module load fastqc
 module load samtools
-module load qualimap
-module load picard
+
+# load anaconda to load conda env with softwares (qualimap and picard) that are not in NEU modules
+module load anaconda3
+eval "$(conda shell.bash hook)"
+conda activate cville
+
 
 #Define important file locations
 #RAW READS indicates the folder where the raw reads are stored.
-RAW_READS=/project/berglandlab/alyssa/wildDmel2016/fastq
+RAW_READS=/projects/lotterhos/Cville-Seasonality-2016-2019/DATA/fastq_renamed
 
 #Working folder is core folder where this pipeline is being run.
-WORKING_FOLDER=/scratch/yey2sn/Alyssa_single_inds/fastq_to_VCF
+WORKING_FOLDER=/scratch/j.min/data/fastq-to-vcf
 
+# Todo - download reference genome
 #This is the location where the reference genome and all its indexes are stored.
-REFERENCE=/project/berglandlab/Dmel_fasta_refences/holo_dmel_6.12.fa
+REFERENCE=/scratch/j.min/data/holo_dmel_6.12.fa
 
 #This is a unique number id which identifies this run
 unique_run_id=`date +%N`
@@ -45,7 +50,7 @@ JAVAMEM=18g # Java memory
 ## PREPARE GUIDE FILES
 ## Read guide files
 # This is a file with the name all the samples to be processed. one sample name per line with all the infor
-SAMPLE_FILE=/scratch/yey2sn/Alyssa_single_inds/fastq_to_VCF/Alyssa_ind_reads_guideFile.txt
+SAMPLE_FILE="/projects/lotterhos/Cville-Seasonality-2016-2019/CODE/1.0.Map_Individual_DNAseqs/Guide_Files/Alyssa_ind_reads_guideFile.txt"
 
 #Example: -- the headers are just examples. The actual file has no header
  ##                                          File1       lane_1                      sample_1

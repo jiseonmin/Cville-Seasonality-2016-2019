@@ -21,6 +21,8 @@ module load anaconda3
 eval "$(conda shell.bash hook)"
 conda activate cville
 
+# Define path to picard.jar
+PICARD=$(find $CONDA_PREFIX -name "picard.jar" | head -1)
 
 #Define important file locations
 #RAW READS indicates the folder where the raw reads are stored.
